@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" class="lang-en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyen Duc Manh — Machine Learning &amp; Applied Mathematics</title>
+<meta name="description" content="Portfolio of Nguyen Duc Manh — B.Sc. Mathematics &amp; Informatics, Hanoi University of Science and Technology. Machine learning, physics-informed neural networks, agentic AI.">
+<meta property="og:title" content="Nguyen Duc Manh — Machine Learning &amp; Applied Mathematics">
+<meta property="og:description" content="B.Sc. Mathematics &amp; Informatics, HUST. Published in European Journal of Mechanics — A/Solids. PINNs, agentic AI, big data.">
+<meta property="og:type" content="profile">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>∑</text></svg>">
+<style>
+  :root{
+    --bg:#fbfbfa; --surface:#ffffff; --line:#e4e2dd; --line-soft:#efedE8;
+    --ink:#1b1a17; --ink-2:#4b4842; --ink-3:#7d7970;
+    --accent:#1f5f4e; --accent-soft:#e8f1ed; --accent-ink:#17493c;
+    --mark:#f5f2ea;
+    --radius:10px;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,"Cascadia Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,"Noto Sans",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",Times,serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#131413; --surface:#1a1c1a; --line:#2c2f2c; --line-soft:#232624;
+      --ink:#eceae4; --ink-2:#b8b5ad; --ink-3:#8b8880;
+      --accent:#6fc3a5; --accent-soft:#172a24; --accent-ink:#8ad6ba;
+      --mark:#20231f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#131413; --surface:#1a1c1a; --line:#2c2f2c; --line-soft:#232624;
+    --ink:#eceae4; --ink-2:#b8b5ad; --ink-3:#8b8880;
+    --accent:#6fc3a5; --accent-soft:#172a24; --accent-ink:#8ad6ba;
+    --mark:#20231f;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:16px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%}
+  a{color:var(--accent-ink); text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+  a:hover{border-bottom-color:var(--accent)}
+
+  .wrap{max-width:880px; margin:0 auto; padding-inline:20px}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .topbar .wrap{display:flex; align-items:center; gap:14px; padding-block:10px; min-height:52px}
+  .brand{font-weight:650; letter-spacing:-.01em; border:0; color:var(--ink); white-space:nowrap}
+  .navlinks{display:flex; gap:16px; margin-left:auto; flex-wrap:wrap; justify-content:flex-end}
+  .navlinks a{
+    color:var(--ink-3); border:0; font-size:.86rem; letter-spacing:.02em;
+    text-transform:uppercase; font-weight:560;
+  }
+  .navlinks a:hover{color:var(--accent-ink)}
+  .switches{display:flex; gap:6px; margin-left:6px}
+  .sw{
+    font:inherit; font-size:.76rem; font-weight:620; letter-spacing:.03em;
+    padding:5px 9px; border-radius:7px; cursor:pointer;
+    background:var(--surface); color:var(--ink-2); border:1px solid var(--line);
+  }
+  .sw:hover{border-color:var(--accent); color:var(--accent-ink)}
+  @media (max-width:640px){ .navlinks{display:none} }
+
+  /* ---------- hero ---------- */
+  .hero{padding-block:64px 44px; border-bottom:1px solid var(--line-soft)}
+  .eyebrow{
+    font-family:var(--mono); font-size:.76rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--serif); font-weight:600; letter-spacing:-.02em;
+    font-size:clamp(2.1rem,6vw,3.2rem); line-height:1.08; margin:0 0 6px;
+  }
+  .subtitle{font-size:clamp(1rem,2.4vw,1.18rem); color:var(--ink-2); margin:0 0 22px; max-width:46ch}
+  .lede{font-size:1.02rem; color:var(--ink-2); max-width:64ch; margin:0 0 26px}
+  .lede em{color:var(--ink); font-style:italic}
+
+  .cta{display:flex; flex-wrap:wrap; gap:10px}
+  .btn{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:9px 15px; border-radius:8px; font-size:.9rem; font-weight:570;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink-2);
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent-ink)}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+  :root[data-theme="dark"] .btn.primary, html:not([data-theme="light"]) .btn.primary{color:var(--bg)}
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]) .btn.primary{color:#fff} }
+  .btn.primary:hover{filter:brightness(1.08); color:#fff}
+  :root[data-theme="dark"] .btn.primary:hover{color:var(--bg)}
+
+  /* ---------- stats ---------- */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft);
+    border-radius:var(--radius); overflow:hidden; margin-top:34px;
+  }
+  .stat{background:var(--bg); padding:16px 14px}
+  .stat b{display:block; font-family:var(--serif); font-size:1.5rem; font-weight:600; letter-spacing:-.02em; line-height:1.2}
+  .stat span{font-size:.78rem; color:var(--ink-3); letter-spacing:.02em}
+  @media (max-width:600px){ .stats{grid-template-columns:repeat(2,1fr)} }
+
+  /* ---------- sections ---------- */
+  section{padding-block:52px; border-bottom:1px solid var(--line-soft)}
+  section:last-of-type{border-bottom:0}
+  h2{
+    font-family:var(--mono); font-size:.79rem; font-weight:640;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+    margin:0 0 26px; display:flex; align-items:center; gap:12px;
+  }
+  h2::after{content:""; flex:1; height:1px; background:var(--line)}
+  h3{font-family:var(--serif); font-size:1.24rem; font-weight:600; letter-spacing:-.01em; line-height:1.3; margin:0 0 6px}
+  p{margin:0 0 14px}
+  p:last-child{margin-bottom:0}
+
+  .card{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); padding:22px; margin-bottom:16px;
+  }
+  .card:last-child{margin-bottom:0}
+  .meta{
+    font-family:var(--mono); font-size:.76rem; color:var(--ink-3);
+    margin:0 0 12px; letter-spacing:.01em;
+  }
+  .venue{color:var(--ink-2); font-style:italic}
+
+  ul.points{margin:0; padding-left:0; list-style:none}
+  ul.points li{position:relative; padding-left:19px; margin-bottom:9px; color:var(--ink-2); font-size:.955rem}
+  ul.points li:last-child{margin-bottom:0}
+  ul.points li::before{
+    content:""; position:absolute; left:2px; top:.62em;
+    width:5px; height:5px; border-radius:50%; background:var(--accent); opacity:.55;
+  }
+  ul.points strong{color:var(--ink); font-weight:620}
+  .hl{background:var(--mark); padding:0 4px; border-radius:3px; font-weight:620; color:var(--ink)}
+
+  .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px}
+  .tag{
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.02em;
+    padding:3px 8px; border-radius:5px;
+    background:var(--accent-soft); color:var(--accent-ink);
+    border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);
+  }
+  .badge{
+    display:inline-block; font-family:var(--mono); font-size:.68rem; font-weight:640;
+    letter-spacing:.07em; text-transform:uppercase; padding:2px 7px; border-radius:4px;
+    background:var(--accent); color:#fff; vertical-align:middle; margin-left:8px;
+  }
+  :root[data-theme="dark"] .badge{color:var(--bg)}
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .badge{color:var(--bg)} }
+
+  /* ---------- rows ---------- */
+  .row{
+    display:grid; grid-template-columns:118px 1fr; gap:18px;
+    padding:14px 0; border-bottom:1px solid var(--line-soft);
+  }
+  .row:last-child{border-bottom:0}
+  .row .when{font-family:var(--mono); font-size:.78rem; color:var(--ink-3); padding-top:3px}
+  .row .what{color:var(--ink-2); font-size:.955rem}
+  .row .what b{color:var(--ink); font-weight:620}
+  @media (max-width:560px){
+    .row{grid-template-columns:1fr; gap:3px}
+    .row .when{padding-top:0}
+  }
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media (max-width:640px){ .grid2{grid-template-columns:1fr} }
+
+  .skillset{margin-bottom:18px}
+  .skillset:last-child{margin-bottom:0}
+  .skillset h4{
+    font-family:var(--mono); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-3); margin:0 0 9px; font-weight:600;
+  }
+
+  .certlist{margin:0; padding-left:0; list-style:none}
+  .certlist li{padding:9px 0; border-bottom:1px solid var(--line-soft); color:var(--ink-2); font-size:.94rem}
+  .certlist li:last-child{border-bottom:0}
+  .certlist b{color:var(--ink); font-weight:620}
+
+  footer{padding-block:40px 56px; color:var(--ink-3); font-size:.88rem}
+  footer .wrap{display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between}
+  .foot-links{display:flex; flex-wrap:wrap; gap:16px}
+
+  /* ---------- language switching ---------- */
+  .lang-en .vi{display:none}
+  .lang-vi .en{display:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">Nguyen Duc Manh</a>
+    <nav class="navlinks">
+      <a href="#research"><span class="en">Research</span><span class="vi">Nghiên cứu</span></a>
+      <a href="#projects"><span class="en">Projects</span><span class="vi">Dự án</span></a>
+      <a href="#experience"><span class="en">Experience</span><span class="vi">Kinh nghiệm</span></a>
+      <a href="#awards"><span class="en">Awards</span><span class="vi">Thành tích</span></a>
+      <a href="#contact"><span class="en">Contact</span><span class="vi">Liên hệ</span></a>
+    </nav>
+    <div class="switches">
+      <button class="sw" id="langBtn" type="button" aria-label="Switch language">VI</button>
+      <button class="sw" id="themeBtn" type="button" aria-label="Switch theme">◐</button>
+    </div>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">
+      <span class="en">Hanoi University of Science and Technology</span>
+      <span class="vi">Đại học Bách khoa Hà Nội</span>
+    </p>
+    <h1><span class="en">Nguyen Duc Manh</span><span class="vi">Nguyễn Đức Mạnh</span></h1>
+    <p class="subtitle">
+      <span class="en">B.Sc. Mathematics &amp; Informatics · Machine learning, physics-informed neural networks and agentic AI.</span>
+      <span class="vi">Cử nhân Toán – Tin · Học máy, mạng nơ-ron gắn vật lý và Agentic AI.</span>
+    </p>
+    <p class="lede">
+      <span class="en">I work at the intersection of machine learning and applied mathematics: surrogate models
+      for structural mechanics, physics-informed neural networks for PDE solving, and LLM-driven multi-agent
+      systems for scientific workflows. I like problems where the mathematics has to be right <em>and</em> the
+      system has to run on real hardware.</span>
+      <span class="vi">Tôi làm việc ở giao điểm giữa học máy và toán ứng dụng: mô hình thay thế cho cơ học kết cấu,
+      mạng nơ-ron gắn vật lý để giải phương trình đạo hàm riêng, và hệ đa tác tử dựa trên LLM cho quy trình nghiên
+      cứu khoa học. Tôi thích những bài toán mà phần toán phải đúng <em>và</em> hệ thống phải chạy được trên phần
+      cứng thật.</span>
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:manh.nd2824@gmail.com">
+        <span class="en">Get in touch</span><span class="vi">Liên hệ</span>
+      </a>
+      <a class="btn" href="CV_NguyenDucManh.pdf">
+        <span class="en">Download CV</span><span class="vi">Tải CV</span>
+      </a>
+      <a class="btn" href="https://www.linkedin.com/in/manh-nguyen-duc-68753b322">LinkedIn</a>
+      <a class="btn" href="https://github.com/ManhNguyenHP">GitHub</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <b>3.67<span style="font-size:.8rem;color:var(--ink-3)">/4.0</span></b>
+        <span class="en">GPA</span><span class="vi">Điểm TB</span>
+      </div>
+      <div class="stat">
+        <b>Q1</b>
+        <span class="en">Journal publication</span><span class="vi">Công bố tạp chí</span>
+      </div>
+      <div class="stat">
+        <b>3</b>
+        <span class="en">Research projects</span><span class="vi">Dự án nghiên cứu</span>
+      </div>
+      <div class="stat">
+        <b>8+</b>
+        <span class="en">Scholarships &amp; awards</span><span class="vi">Học bổng &amp; giải thưởng</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="research">
+  <div class="wrap">
+    <h2><span class="en">Research &amp; Publications</span><span class="vi">Nghiên cứu &amp; Công bố</span></h2>
+
+    <div class="card">
+      <h3>Highly Efficient Prediction of Beating Phenomena in Laminated Nanocomposite Plates Using a Hybrid Neural–Numerical–Analytical Framework</h3>
+      <p class="meta"><span class="venue">European Journal of Mechanics – A/Solids</span> · vol. 116 (2026), 105844 · Q1</p>
+      <p>
+        <span class="en">A hybrid framework that replaces the expensive inner loop of a numerical–analytical
+        solver with a trained surrogate, predicting beating phenomena in laminated nanocomposite plates at a
+        fraction of the cost.</span>
+        <span class="vi">Khung lai thay thế vòng lặp tính toán tốn kém của bộ giải số – giải tích bằng một mô hình
+        thay thế đã huấn luyện, dự đoán hiện tượng phách trong tấm nanocomposite nhiều lớp với chi phí thấp hơn
+        nhiều.</span>
+      </p>
+      <ul class="points">
+        <li><span class="en"><strong>My contribution:</strong> neural network architecture design, model training and evaluation for the Stage 1 surrogate model.</span>
+            <span class="vi"><strong>Đóng góp của tôi:</strong> thiết kế kiến trúc mạng nơ-ron, huấn luyện và đánh giá mô hình cho surrogate model giai đoạn 1.</span></li>
+      </ul>
+      <div class="tags">
+        <span class="tag">Surrogate modelling</span><span class="tag">Structural mechanics</span><span class="tag">Deep learning</span>
+      </div>
+      <p style="margin-top:14px"><a href="https://doi.org/10.1016/j.euromechsol.2025.105844">doi.org/10.1016/j.euromechsol.2025.105844</a></p>
+    </div>
+
+    <div class="card">
+      <h3>Adaptive Hard–Soft Physics-Informed Neural Networks for Robust Boundary-Constrained PDE Solving</h3>
+      <p class="meta"><span class="en">Manuscript under review</span><span class="vi">Bản thảo đang phản biện</span></p>
+      <p>
+        <span class="en">An adaptive scheme that blends hard and soft boundary condition enforcement so
+        physics-informed networks stay stable on boundary-constrained PDEs where either approach alone
+        degrades.</span>
+        <span class="vi">Cơ chế thích nghi kết hợp áp đặt điều kiện biên cứng và mềm, giúp mạng gắn vật lý giữ được
+        tính ổn định trên các bài toán PDE có ràng buộc biên mà mỗi cách tiếp cận riêng lẻ đều suy giảm.</span>
+      </p>
+      <ul class="points">
+        <li><span class="en"><strong>My contribution:</strong> PINN implementation, formal analysis, writing review.</span>
+            <span class="vi"><strong>Đóng góp của tôi:</strong> cài đặt PINN, phân tích hình thức, rà soát bản thảo.</span></li>
+      </ul>
+      <div class="tags">
+        <span class="tag">PINN</span><span class="tag">PDE</span><span class="tag">Numerical analysis</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="en">Research Student — Materials and Structures (MAS) Group</span><span class="vi">Sinh viên nghiên cứu — Nhóm Vật liệu và Kết cấu (MAS)</span></h3>
+      <p class="meta">2025 — <span class="en">present</span><span class="vi">nay</span> · Hanoi University of Science and Technology</p>
+      <p><a href="https://sites.google.com/view/mas-group-hust/home">sites.google.com/view/mas-group-hust</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2><span class="en">Selected Projects</span><span class="vi">Dự án tiêu biểu</span></h2>
+
+    <div class="card">
+      <h3>AgenticTS<span class="en"> — Agentic AI Multi-Agent Framework for Time Series Forecasting</span><span class="vi"> — Khung đa tác tử Agentic AI cho dự báo chuỗi thời gian</span></h3>
+      <p class="meta">Feb 2026 – May 2026 · <span class="en">Agentic AI · LLM reasoning · Research paper</span><span class="vi">Agentic AI · Suy luận LLM · Bài báo nghiên cứu</span></p>
+      <p>
+        <span class="en">A reasoning-driven multi-agent framework automating the end-to-end forecasting pipeline,
+        formalised as a constrained sequential decision process with hierarchical memory (episodic, semantic, vector).</span>
+        <span class="vi">Khung đa tác tử điều khiển bằng suy luận, tự động hoá toàn bộ quy trình dự báo, được hình
+        thức hoá thành quá trình ra quyết định tuần tự có ràng buộc với bộ nhớ phân cấp (episodic, semantic, vector).</span>
+      </p>
+      <ul class="points">
+        <li><span class="en"><strong>Nine specialised agents</strong> — Orchestrator, Guardrail, Ingestion, Diagnostics, Feature, Model Strategy, Training, Evaluation, Report — reasoning via <strong>Gemini 2.5 Flash Lite</strong> on a containerised orchestration layer.</span>
+            <span class="vi"><strong>Chín tác tử chuyên biệt</strong> — Orchestrator, Guardrail, Ingestion, Diagnostics, Feature, Model Strategy, Training, Evaluation, Report — suy luận qua <strong>Gemini 2.5 Flash Lite</strong> trên tầng điều phối container hoá.</span></li>
+        <li><span class="en"><strong>Diagnostic-constrained model selection</strong>: ADF stationarity tests, ACF/PACF, Z-score outlier and seasonality detection narrow the search space over ARIMA, LSTM and DLinear, replacing brute-force grid/AIC search.</span>
+            <span class="vi"><strong>Chọn mô hình theo ràng buộc chẩn đoán</strong>: kiểm định tính dừng ADF, ACF/PACF, phát hiện điểm dị thường Z-score và tính mùa vụ thu hẹp không gian tìm kiếm trên ARIMA, LSTM, DLinear, thay cho tìm kiếm vét cạn theo lưới/AIC.</span></li>
+        <li><span class="en">Evaluated on Hanoi Energy, Hanoi Weather and ETTh1 across horizons 96/192/336/720. Against Auto-ARIMA on Hanoi Energy (H=96): <span class="hl">−10.6% MAE</span> and <span class="hl">−27.6% MSE</span>.</span>
+            <span class="vi">Đánh giá trên Hanoi Energy, Hanoi Weather và ETTh1 ở các tầm dự báo 96/192/336/720. So với Auto-ARIMA trên Hanoi Energy (H=96): <span class="hl">giảm 10,6% MAE</span> và <span class="hl">giảm 27,6% MSE</span>.</span></li>
+        <li><span class="en">Ablation study isolating the Feature, Diagnostics and Model Strategy agents. Every stage logs to a traceable JSON manifest for full reproducibility.</span>
+            <span class="vi">Nghiên cứu loại bỏ tách riêng vai trò của tác tử Feature, Diagnostics và Model Strategy. Mọi bước ghi log vào JSON manifest truy vết được, đảm bảo tái lập hoàn toàn.</span></li>
+      </ul>
+      <div class="tags">
+        <span class="tag">Multi-agent</span><span class="tag">LLM</span><span class="tag">ARIMA</span><span class="tag">LSTM</span><span class="tag">DLinear</span><span class="tag">Docker</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="en">Aviation Data Warehouse — Flight Delay &amp; Cancellation Analytics</span><span class="vi">Kho dữ liệu hàng không — Phân tích chậm &amp; huỷ chuyến</span></h3>
+      <p class="meta">Sep 2025 – Jan 2026 · <span class="en">Big Data · physical enterprise server (12 vCores, 31 GB RAM)</span><span class="vi">Big Data · máy chủ doanh nghiệp vật lý (12 vCore, 31 GB RAM)</span></p>
+      <ul class="points">
+        <li><span class="en">Designed and deployed a <strong>Galaxy Schema</strong> warehouse on a physical Hadoop cluster, with an automated end-to-end ingestion pipeline on <strong>Apache NiFi</strong> and <strong>Apache Oozie</strong> — zero manual intervention.</span>
+            <span class="vi">Thiết kế và triển khai kho dữ liệu <strong>Galaxy Schema</strong> trên cụm Hadoop vật lý, với pipeline nạp dữ liệu đầu-cuối tự động bằng <strong>Apache NiFi</strong> và <strong>Apache Oozie</strong>, không thao tác thủ công.</span></li>
+        <li><span class="en"><span class="hl">91.47% storage reduction</span> via Parquet/Snappy compression and <span class="hl">6.1× query speedup</span> over row-based storage through partitioning and schema design.</span>
+            <span class="vi"><span class="hl">Giảm 91,47% dung lượng</span> nhờ nén Parquet/Snappy và <span class="hl">tăng tốc truy vấn 6,1 lần</span> so với lưu trữ theo dòng, qua phân vùng và thiết kế lược đồ.</span></li>
+        <li><span class="en">Benchmarked on live hardware rather than simulation. Resolved production-grade compatibility and permission issues in a real enterprise environment.</span>
+            <span class="vi">Đo hiệu năng trên phần cứng thật thay vì mô phỏng. Xử lý các vấn đề tương thích và phân quyền ở mức môi trường doanh nghiệp thực tế.</span></li>
+        <li><span class="en">Built analytical dashboards for delay patterns by airline, route, season and airport.</span>
+            <span class="vi">Xây dựng dashboard phân tích mẫu chậm chuyến theo hãng bay, đường bay, mùa và sân bay.</span></li>
+      </ul>
+      <div class="tags">
+        <span class="tag">Hadoop</span><span class="tag">NiFi</span><span class="tag">Oozie</span><span class="tag">Parquet</span><span class="tag">Spark</span><span class="tag">Data warehousing</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="en">Automatic Multiple-Choice Answer Sheet Grading System</span><span class="vi">Hệ thống chấm trắc nghiệm tự động</span><span class="badge"><span class="en">in production</span><span class="vi">đang vận hành</span></span></h3>
+      <p class="meta">Mar 2025 – Jun 2025 · <span class="en">Computer Vision · official faculty project, Dept. of Mathematics &amp; Informatics, HUST</span><span class="vi">Thị giác máy tính · đề tài chính thức của Khoa Toán – Tin, ĐHBK Hà Nội</span></p>
+      <ul class="points">
+        <li><span class="en">End-to-end pipeline recognising filled and unfilled answer bubbles under real scan conditions: poor scan quality, partial erasures, varied lighting.</span>
+            <span class="vi">Pipeline đầu-cuối nhận diện ô tô và chưa tô trong điều kiện quét thực tế: chất lượng scan kém, tẩy xoá một phần, ánh sáng không đồng đều.</span></li>
+        <li><span class="en">Dataset built with Roboflow (collection, annotation, augmentation). <strong>YOLOv8</strong> trained and optimised to <span class="hl">mAP@0.5 ≈ 99%</span> on the held-out test set.</span>
+            <span class="vi">Bộ dữ liệu xây bằng Roboflow (thu thập, gán nhãn, tăng cường). <strong>YOLOv8</strong> được huấn luyện và tối ưu đạt <span class="hl">mAP@0.5 ≈ 99%</span> trên tập kiểm thử độc lập.</span></li>
+        <li><span class="en">OpenCV preprocessing (deskew, binarisation, noise removal) normalises diverse input quality before inference.</span>
+            <span class="vi">Tiền xử lý OpenCV (căn nghiêng, nhị phân hoá, khử nhiễu) chuẩn hoá chất lượng ảnh đầu vào trước khi suy luận.</span></li>
+        <li><span class="en"><strong>K-means clustering</strong> post-processing spatially maps detected bubbles to logical answer positions, enabling fully automated scoring.</span>
+            <span class="vi">Hậu xử lý bằng <strong>phân cụm K-means</strong> ánh xạ vị trí ô đã phát hiện sang vị trí đáp án logic, cho phép chấm điểm hoàn toàn tự động.</span></li>
+        <li><span class="en">Recognised with an official certificate of active participation from the Faculty.</span>
+            <span class="vi">Được Khoa ghi nhận bằng giấy chứng nhận tham gia tích cực.</span></li>
+      </ul>
+      <div class="tags">
+        <span class="tag">YOLOv8</span><span class="tag">OpenCV</span><span class="tag">K-means</span><span class="tag">Roboflow</span><span class="tag">PyTorch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <h2><span class="en">Experience &amp; Education</span><span class="vi">Kinh nghiệm &amp; Học vấn</span></h2>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><span class="en">Software Developer Intern</span><span class="vi">Thực tập sinh Lập trình</span></h3>
+        <p class="meta">1C Vietnam, Ha Noi · 2025</p>
+        <ul class="points">
+          <li><span class="en">Built a <strong>retail pharmacy chain management system</strong> on 1C:Enterprise — inventory tracking, sales, supplier orders and automated reporting.</span>
+              <span class="vi">Xây dựng <strong>hệ thống quản lý chuỗi nhà thuốc bán lẻ</strong> trên 1C:Enterprise — quản lý tồn kho, bán hàng, đặt hàng nhà cung cấp và báo cáo tự động.</span></li>
+          <li><span class="en">Hands-on with enterprise software architecture, business process modelling and relational database configuration.</span>
+              <span class="vi">Làm việc trực tiếp với kiến trúc phần mềm doanh nghiệp, mô hình hoá quy trình nghiệp vụ và cấu hình cơ sở dữ liệu quan hệ.</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="en">B.Sc. Mathematics &amp; Informatics</span><span class="vi">Cử nhân Toán – Tin</span></h3>
+        <p class="meta"><span class="en">Hanoi University of Science and Technology · 2022 – 2026 (exp. July)</span><span class="vi">Đại học Bách khoa Hà Nội · 2022 – 2026 (dự kiến tháng 7)</span></p>
+        <ul class="points">
+          <li><span class="en">GPA <span class="hl">3.67/4.0</span> (9.18/10)</span><span class="vi">GPA <span class="hl">3,67/4,0</span> (9,18/10)</span></li>
+          <li><span class="en">Selected coursework: Optimization Methods (A+), Probability &amp; Statistics (A+), Data Structures &amp; Algorithms (A), Database (A), Encryption &amp; Algorithm Complexity (A+), Numerical Analysis (B), System Analysis &amp; Design (A).</span>
+              <span class="vi">Môn học tiêu biểu: Phương pháp tối ưu (A+), Xác suất thống kê (A+), Cấu trúc dữ liệu &amp; Giải thuật (A), Cơ sở dữ liệu (A), Mật mã &amp; Độ phức tạp thuật toán (A+), Giải tích số (B), Phân tích &amp; Thiết kế hệ thống (A).</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="awards">
+  <div class="wrap">
+    <h2><span class="en">Awards, Scholarships &amp; Programs</span><span class="vi">Giải thưởng, Học bổng &amp; Chương trình</span></h2>
+
+    <div class="row">
+      <div class="when">2026 —</div>
+      <div class="what"><b><span class="en">Participant, VINIF Talent Program</span><span class="vi">Thành viên Chương trình VINIF Talent</span></b> · <a href="https://vinif.org/en/sponsor-programs/talent-camps/">vinif.org</a></div>
+    </div>
+    <div class="row">
+      <div class="when">2025</div>
+      <div class="what"><b><span class="en">Mirae Asset Foundation Scholarship Program</span><span class="vi">Học bổng Quỹ Mirae Asset</span></b></div>
+    </div>
+    <div class="row">
+      <div class="when">07/2025</div>
+      <div class="what"><b><span class="en">VIASM Student Summer School in Mathematics</span><span class="vi">Trường hè Toán học sinh viên VIASM</span></b> — <span class="en">Applied Mathematics track, FPT University Da Nang (competitive selection)</span><span class="vi">ban Toán ứng dụng, Đại học FPT Đà Nẵng (xét tuyển cạnh tranh)</span></div>
+    </div>
+    <div class="row">
+      <div class="when">2024, 2025</div>
+      <div class="what"><b><span class="en">Certificate of Achievement — Excellent Student</span><span class="vi">Giấy khen Sinh viên xuất sắc</span></b> — <span class="en">AY 2023–2024, Faculty of Mathematics &amp; Informatics, HUST</span><span class="vi">năm học 2023–2024, Khoa Toán – Tin, ĐHBK Hà Nội</span></div>
+    </div>
+    <div class="row">
+      <div class="when">2023 —</div>
+      <div class="what"><b><span class="en">HUST Scholarship for Excellent Academic Performance</span><span class="vi">Học bổng khuyến khích học tập ĐHBK Hà Nội</span></b> — <span class="en">semesters 2023.1, 2023.2, 2024.1, 2024.2</span><span class="vi">kỳ 2023.1, 2023.2, 2024.1, 2024.2</span></div>
+    </div>
+    <div class="row">
+      <div class="when">—</div>
+      <div class="what"><b><span class="en">FAMI Scholarship · Bui Long Bien Teacher Scholarship · Silk Road Scholarship</span><span class="vi">Học bổng FAMI · Học bổng Nhà giáo Bùi Long Biên · Học bổng Con đường tơ lụa</span></b></div>
+    </div>
+    <div class="row">
+      <div class="when">2022 —</div>
+      <div class="what"><span class="en">Member, Applied Mathematics &amp; Informatics Club (AMIC), Faculty of Mathematics &amp; Informatics, HUST</span><span class="vi">Thành viên Câu lạc bộ Toán ứng dụng &amp; Tin học (AMIC), Khoa Toán – Tin, ĐHBK Hà Nội</span></div>
+    </div>
+
+    <p style="margin-top:22px">
+      <span class="en">Transcripts, certificates, scholarship decisions, commendations and publication PDFs:</span>
+      <span class="vi">Bảng điểm, chứng chỉ, quyết định học bổng, giấy khen và bản PDF các công bố:</span>
+      <a href="https://drive.google.com/drive/folders/1Co7_COynE8MLSbvILPosyaCuAVKiTP4C?usp=sharing"><span class="en">Proof of achievement (Google Drive)</span><span class="vi">Hồ sơ minh chứng (Google Drive)</span></a>
+    </p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2><span class="en">Skills &amp; Certifications</span><span class="vi">Kỹ năng &amp; Chứng chỉ</span></h2>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="skillset">
+          <h4>Machine learning</h4>
+          <div class="tags">
+            <span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">scikit-learn</span><span class="tag">YOLOv8</span><span class="tag">OpenCV</span>
+          </div>
+        </div>
+        <div class="skillset">
+          <h4><span class="en">Programming</span><span class="vi">Lập trình</span></h4>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">C/C++</span><span class="tag">C#</span><span class="tag">SQL</span><span class="tag">Git</span><span class="tag">Jupyter</span><span class="tag">1C:Enterprise</span>
+          </div>
+        </div>
+        <div class="skillset">
+          <h4><span class="en">Data &amp; big data</span><span class="vi">Dữ liệu &amp; Big Data</span></h4>
+          <div class="tags">
+            <span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">SciPy</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">Hadoop</span><span class="tag">Spark</span><span class="tag">NiFi</span><span class="tag">Oozie</span>
+          </div>
+        </div>
+        <div class="skillset">
+          <h4><span class="en">Languages</span><span class="vi">Ngoại ngữ</span></h4>
+          <div class="tags">
+            <span class="tag"><span class="en">English — TOEIC 790</span><span class="vi">Tiếng Anh — TOEIC 790</span></span>
+            <span class="tag"><span class="en">Vietnamese — native</span><span class="vi">Tiếng Việt — bản ngữ</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <ul class="certlist">
+          <li><b>WorldQuant</b> — BRAIN certificate · Challenge Gold Certificate · IQC 2026 Stage 1</li>
+          <li><b>DeepLearning.AI / Coursera</b> — Machine Learning Specialization: Supervised ML (Regression &amp; Classification), Advanced Learning Algorithms, Unsupervised Learning &amp; Recommenders</li>
+          <li><b><span class="en">Mathematics for ML</span><span class="vi">Toán cho học máy</span></b> — Calculus for Machine Learning and Data Science · Probability &amp; Statistics for Machine Learning</li>
+          <li><b><span class="en">Data</span><span class="vi">Dữ liệu</span></b> — SQL for Data Science · Python for Everybody</li>
+          <li><b>Microsoft Office Specialist</b> — Excel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2><span class="en">Contact</span><span class="vi">Liên hệ</span></h2>
+    <p class="lede">
+      <span class="en">Open to research assistant, machine learning engineer and graduate research opportunities.</span>
+      <span class="vi">Sẵn sàng cho các cơ hội trợ lý nghiên cứu, kỹ sư học máy và nghiên cứu sau đại học.</span>
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:manh.nd2824@gmail.com">manh.nd2824@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/manh-nguyen-duc-68753b322">LinkedIn</a>
+      <a class="btn" href="https://github.com/ManhNguyenHP">GitHub</a>
+    </div>
+    <p style="margin-top:18px; color:var(--ink-3); font-size:.9rem">
+      <span class="en">Ha Noi, Viet Nam</span><span class="vi">Hà Nội, Việt Nam</span>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="year">2026</span> Nguyen Duc Manh</div>
+    <div class="foot-links">
+      <a href="CV_NguyenDucManh.pdf"><span class="en">CV (PDF)</span><span class="vi">CV (PDF)</span></a>
+      <a href="https://drive.google.com/drive/folders/1Co7_COynE8MLSbvILPosyaCuAVKiTP4C?usp=sharing"><span class="en">Credentials</span><span class="vi">Minh chứng</span></a>
+      <a href="https://github.com/ManhNguyenHP">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var langBtn = document.getElementById('langBtn');
+  var themeBtn = document.getElementById('themeBtn');
+
+  function store(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+  function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+  function setLang(lang){
+    root.classList.remove('lang-en','lang-vi');
+    root.classList.add('lang-' + lang);
+    root.setAttribute('lang', lang === 'vi' ? 'vi' : 'en');
+    langBtn.textContent = lang === 'vi' ? 'EN' : 'VI';
+    store('lang', lang);
+  }
+
+  setLang(load('lang') === 'vi' ? 'vi' : 'en');
+
+  langBtn.addEventListener('click', function(){
+    setLang(root.classList.contains('lang-vi') ? 'en' : 'vi');
+  });
+
+  var savedTheme = load('theme');
+  if (savedTheme === 'dark' || savedTheme === 'light') root.setAttribute('data-theme', savedTheme);
+
+  themeBtn.addEventListener('click', function(){
+    var current = root.getAttribute('data-theme');
+    if (!current) {
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      current = prefersDark ? 'dark' : 'light';
+    }
+    var next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store('theme', next);
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
